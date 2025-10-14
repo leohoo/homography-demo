@@ -51,7 +51,6 @@ def initialize_rectangles():
     center4 = (412, 300)
 
     centers = [center1, center2, center3, center4]
-    print(centers)
     rectangles = [Rectangle(center, s, s, RECTANGLE_COLORS[i]) for i, center in enumerate(centers)]
 
 def mouse_callback(event, x, y, flags, param):
@@ -152,7 +151,7 @@ def main():
                         else:
                             # The other 3 vertices of the same rectangle are Blue
                             color = HINT_COLOR
-                
+
                 cv2.circle(canvas, tuple(vertex.astype(np.int32)), VERTEX_RADIUS, color, -1)
 
         cv2.setMouseCallback(window_name, mouse_callback, {'displayed_quads': displayed_quads})
