@@ -1,17 +1,13 @@
 import cv2
 import numpy as np
+import random
 
 # Window size
 WIDTH, HEIGHT = 800, 600
 
 # Colors
 BACKGROUND_COLOR = (0, 0, 0)
-RECTANGLE_COLORS = [
-    (255, 180, 130),  # Light Blue
-    (130, 255, 180),  # Mint Green
-    (180, 130, 255),  # Lavender
-    (130, 220, 255)   # Light Orange
-]
+# Rectangle colors are now generated dynamically in initialize_rectangles()
 OUTLINE_COLOR = (255, 255, 255)
 VERTEX_COLOR = (0, 165, 255) # Orange
 HINT_COLOR = (255, 0, 0) # Blue
@@ -39,19 +35,43 @@ dragged_point_info = None # Will store {'rect_idx': i, 'vertex_idx': j, 'pos': (
 
 def initialize_rectangles():
     """
-    Initializes the four overlapping rectangles as Rectangle objects.
+    Initializes a grid of overlapping rectangles as Rectangle objects.
     """
     global rectangles
-    s = 150  # size of the square
 
-    # Define centers of the four rectangles
-    center1 = (240, 180)
-    center2 = (330, 200)
-    center3 = (300, 312)
-    center4 = (412, 300)
+    grid_cols = 6
+    grid_rows = 4
+    num_rects = grid_cols * grid_rows
+    s = 80  # size of the square
+    offset = s * 3 // 4 # overlap amount
 
-    centers = [center1, center2, center3, center4]
-    rectangles = [Rectangle(center, s, s, RECTANGLE_COLORS[i]) for i, center in enumerate(centers)]
+    # Calculate total grid size to center it on the screen
+    grid_width = (grid_cols - 1) * offset + s
+    grid_height = (grid_rows - 1) * offset + s
+    start_x = (WIDTH - grid_width) // 2
+    start_y = (HEIGHT - grid_height) // 2
+
+    hw = s / 2 # half width/height
+
+    centers = []
+    for row in range(grid_rows):
+        for col in range(grid_cols):
+            # Add a slight random offset to break the perfect grid alignment
+            rand_offset_x = random.randint(-10, 10)
+            rand_offset_y = random.randint(-10, 10)
+            center_x = start_x + col * offset + hw + rand_offset_x
+            center_y = start_y + row * offset + hw + rand_offset_y
+            centers.append((center_x, center_y))
+
+    # Generate a list of distinct colors for each rectangle
+    colors = []
+    for i in range(num_rects):
+        hue = int(i * (180 / num_rects)) # 180 is the hue range in OpenCV
+        color_hsv = np.uint8([[[hue, 255, 200]]])
+        color_bgr = cv2.cvtColor(color_hsv, cv2.COLOR_HSV2BGR)[0][0]
+        colors.append(tuple(map(int, color_bgr)))
+
+    rectangles = [Rectangle(center, s, s, colors[i]) for i, center in enumerate(centers)]
 
 def mouse_callback(event, x, y, flags, param):
     """Handles mouse events for dragging vertices."""
