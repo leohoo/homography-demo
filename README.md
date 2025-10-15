@@ -4,7 +4,7 @@ This is a small Python application that demonstrates perspective transformations
 
 ## What it does
 
-The application displays four overlapping, semi-transparent rectangles. You can click and drag any corner point of these rectangles. When you move a point, a perspective transformation is calculated from the original shape of the rectangle to its new, distorted shape. This transformation is then applied to the entire group of rectangles, warping the whole shape in real-time.
+The application displays twenty-four overlapping, semi-transparent rectangles. You can click and drag any corner point of these rectangles. When you move a point, a perspective transformation is calculated from the original shape of the rectangle to its new, distorted shape. This transformation is then applied to the entire group of rectangles, warping the whole shape in real-time.
 
 This demonstrates how a homography matrix can map a quadrilateral to another and transform other points in the same plane accordingly.
 
@@ -56,7 +56,7 @@ python homography_demo.py
 
 ## アプリケーションの概要
 
-このアプリケーションは、4つの半透明な長方形が重なって表示されます。これらの長方形の角の点をクリック＆ドラッグすることができます。点を移動すると、元の長方形の形状から新しい歪んだ形状への射影変換が計算されます。この変換は、長方形グループ全体に適用され、形状全体がリアルタイムで歪みます。
+このアプリケーションは、24個の半透明な長方形が重なって表示されます。これらの長方形の角の点をクリック＆ドラッグすることができます。点を移動すると、元の長方形の形状から新しい歪んだ形状への射影変換が計算されます。この変換は、長方形グループ全体に適用され、形状全体がリアルタイムで歪みます。
 
 これにより、ホモグラフィ行列がどのようにして一つの四角形を別の四角形にマッピングし、同じ平面上の他の点をそれに応じて変換するかを実演します。
 
