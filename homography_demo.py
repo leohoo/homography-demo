@@ -146,8 +146,14 @@ def main():
         for i, quad in enumerate(displayed_quads):
             # Create a temporary overlay for the current rectangle
             overlay = canvas.copy()
+
+            # Highlight the selected rectangle by changing its fill color to white
+            fill_color = rectangles[i].color
+            if dragged_point_info and dragged_point_info['rect_idx'] == i:
+                fill_color = (255, 255, 255)  # White
+
             # Draw the single filled rectangle on the overlay
-            cv2.fillPoly(overlay, [quad.astype(np.int32)], rectangles[i].color)
+            cv2.fillPoly(overlay, [quad.astype(np.int32)], fill_color)
             # Blend the overlay with the main canvas
             cv2.addWeighted(overlay, alpha, canvas, 1 - alpha, 0, canvas)
 
